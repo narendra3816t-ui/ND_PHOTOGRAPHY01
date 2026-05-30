@@ -1,0 +1,311 @@
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .site { background: #0a0a0a; color: #fff; font-family: var(--font-sans); }
+
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2.5rem; border-bottom: 0.5px solid rgba(255,255,255,0.1); background: rgba(10,10,10,0.95); position: sticky; top: 0; z-index: 10; }
+  .logo { font-size: 20px; font-weight: 500; letter-spacing: 4px; color: #fff; }
+  .logo span { color: #c8a96e; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { color: rgba(255,255,255,0.6); font-size: 13px; letter-spacing: 1.5px; text-decoration: none; text-transform: uppercase; cursor: pointer; }
+  .nav-links a:hover { color: #c8a96e; }
+
+  .hero { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 4rem 2rem; background: linear-gradient(160deg, #0a0a0a 60%, #1a1208 100%); border-bottom: 0.5px solid rgba(200,169,110,0.2); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 50% 30%, rgba(200,169,110,0.07) 0%, transparent 65%); }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 5px; color: #c8a96e; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .hero h1 { font-size: 64px; font-weight: 500; letter-spacing: 8px; color: #fff; line-height: 1.1; margin-bottom: 0.5rem; }
+  .hero h1 span { color: #c8a96e; }
+  .hero-sub { font-size: 13px; letter-spacing: 4px; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 1rem; }
+  .hero-owner { font-size: 14px; letter-spacing: 3px; color: rgba(200,169,110,0.7); margin-bottom: 2rem; }
+  .hero-tagline { font-size: 16px; color: rgba(255,255,255,0.55); max-width: 480px; line-height: 1.8; margin-bottom: 3rem; }
+  .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .btn-primary { padding: 0.85rem 2.2rem; background: #c8a96e; color: #0a0a0a; border: none; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; cursor: pointer; border-radius: 2px; }
+  .btn-primary:hover { background: #d4b87a; }
+  .btn-outline { padding: 0.85rem 2.2rem; background: transparent; color: #fff; border: 0.5px solid rgba(255,255,255,0.35); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; border-radius: 2px; }
+  .btn-outline:hover { border-color: #c8a96e; color: #c8a96e; }
+  .btn-wa { padding: 0.85rem 2.2rem; background: #25D366; color: #fff; border: none; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; cursor: pointer; border-radius: 2px; display: flex; align-items: center; gap: 8px; }
+  .btn-wa:hover { background: #1ebe5d; }
+
+  section { padding: 5rem 2.5rem; }
+  .section-title { text-align: center; font-size: 11px; letter-spacing: 5px; color: #c8a96e; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .section-heading { text-align: center; font-size: 32px; font-weight: 500; color: #fff; margin-bottom: 3.5rem; letter-spacing: 2px; }
+  .divider { width: 40px; height: 1px; background: #c8a96e; margin: 0 auto 3rem; }
+
+  .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 3px; max-width: 960px; margin: 0 auto; }
+  .portfolio-item { aspect-ratio: 4/3; background: #1a1a1a; border-radius: 2px; overflow: hidden; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .portfolio-item svg { width: 100%; height: 100%; }
+  .portfolio-overlay { position: absolute; inset: 0; background: rgba(10,10,10,0.7); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+  .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+  .portfolio-overlay span { font-size: 11px; letter-spacing: 3px; color: #c8a96e; text-transform: uppercase; }
+
+  .pricing-section { background: #0d0d0d; padding: 5rem 2.5rem; }
+  .pkg-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; max-width: 900px; margin: 0 auto; }
+  .pkg-card { background: #111; border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 2rem 1.5rem; display: flex; flex-direction: column; }
+  .pkg-card:hover { border-color: rgba(200,169,110,0.35); }
+  .pkg-card.featured { border: 1.5px solid #c8a96e; background: #141008; position: relative; }
+  .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: #c8a96e; color: #0a0a0a; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 14px; border-radius: 20px; font-weight: 500; white-space: nowrap; }
+  .tier { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.25rem; }
+  .tier.silver { color: #aaa; }
+  .tier.gold { color: #c8a96e; }
+  .tier.platinum { color: #a78bfa; }
+  .pkg-name { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 1.25rem; }
+  .price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 1.5rem; }
+  .price { font-size: 36px; font-weight: 500; }
+  .price.silver { color: #aaa; }
+  .price.gold { color: #c8a96e; }
+  .price.platinum { color: #a78bfa; }
+  .per { font-size: 13px; color: rgba(255,255,255,0.35); }
+  .features { list-style: none; flex: 1; margin-bottom: 1.75rem; }
+  .features li { display: flex; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.6); padding: 0.5rem 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); line-height: 1.5; }
+  .features li:last-child { border-bottom: none; }
+  .arrow.silver { color: #aaa; }
+  .arrow.gold { color: #c8a96e; }
+  .arrow.platinum { color: #a78bfa; }
+  .pkg-btn { width: 100%; padding: 0.85rem; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; cursor: pointer; border-radius: 3px; border: none; }
+  .pkg-btn.silver { background: rgba(170,170,170,0.15); color: #aaa; border: 0.5px solid rgba(170,170,170,0.3); }
+  .pkg-btn.gold { background: #c8a96e; color: #0a0a0a; }
+  .pkg-btn.platinum { background: #a78bfa; color: #0a0a0a; }
+  .pkg-note { text-align: center; font-size: 11px; color: rgba(255,255,255,0.2); margin-top: 2.5rem; letter-spacing: 1px; }
+
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; max-width: 900px; margin: 0 auto; }
+  .testi-card { background: #111; border: 0.5px solid rgba(200,169,110,0.15); padding: 1.75rem; border-radius: 4px; }
+  .testi-stars { color: #c8a96e; font-size: 14px; margin-bottom: 1rem; }
+  .testi-text { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.8; margin-bottom: 1.25rem; font-style: italic; }
+  .testi-author { font-size: 12px; letter-spacing: 2px; color: #c8a96e; text-transform: uppercase; }
+
+  .contact-inner { max-width: 560px; margin: 0 auto; background: #111; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 2.5rem; }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label { display: block; font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; background: #1a1a1a; border: 0.5px solid rgba(255,255,255,0.12); color: #fff; padding: 0.75rem 1rem; font-size: 14px; border-radius: 2px; outline: none; font-family: var(--font-sans); }
+  .form-group textarea { min-height: 110px; resize: vertical; }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: rgba(200,169,110,0.5); }
+  .form-group select option { background: #1a1a1a; }
+  .submit-btn { width: 100%; padding: 1rem; background: #c8a96e; color: #0a0a0a; border: none; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; cursor: pointer; border-radius: 2px; margin-top: 0.5rem; }
+  .submit-btn:hover { background: #d4b87a; }
+
+  .wa-float { position: fixed; bottom: 24px; right: 24px; background: #25D366; color: #fff; border: none; border-radius: 50px; padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 20px rgba(37,211,102,0.3); z-index: 100; text-decoration: none; }
+  .wa-float:hover { background: #1ebe5d; }
+
+  .contact-wa-box { max-width: 560px; margin: 0 auto 2rem; background: rgba(37,211,102,0.08); border: 0.5px solid rgba(37,211,102,0.25); border-radius: 8px; padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .wa-info { display: flex; align-items: center; gap: 10px; }
+  .wa-info span { font-size: 14px; color: rgba(255,255,255,0.7); }
+  .wa-num { font-size: 18px; font-weight: 500; color: #25D366; }
+  .wa-btn { padding: 0.6rem 1.4rem; background: #25D366; color: #fff; border: none; border-radius: 4px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; font-weight: 500; }
+  .wa-btn:hover { background: #1ebe5d; }
+
+  footer { text-align: center; padding: 2rem; border-top: 0.5px solid rgba(255,255,255,0.07); font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 2px; }
+  footer span { color: #c8a96e; }
+  .footer-owner { font-size: 13px; color: rgba(200,169,110,0.5); letter-spacing: 2px; margin-bottom: 0.4rem; }
+  .footer-wa { font-size: 12px; color: rgba(37,211,102,0.5); letter-spacing: 1px; margin-bottom: 0.75rem; }
+</style>
+
+<div class="site">
+  <nav>
+    <div class="logo">ND <span>PHOTOGRAPHY</span></div>
+    <div class="nav-links">
+      <a>Portfolio</a>
+      <a>Pricing</a>
+      <a>Testimonials</a>
+      <a>Contact</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Visual Storyteller · Surat, India</div>
+    <h1>ND <span>PHOTO</span><br>GRAPHY</h1>
+    <div class="hero-sub">Reels · Videography · Photography</div>
+    <div class="hero-owner">By Narendra Tholia</div>
+    <p class="hero-tagline">Capturing moments that breathe life into stories — from cinematic reels to timeless portraits.</p>
+    <div class="btn-group">
+      <button class="btn-primary">View Portfolio</button>
+      <button class="btn-outline">Book a Session</button>
+      <a class="btn-wa" href="https://wa.me/917046205948" target="_blank">
+        <i class="ti ti-brand-whatsapp" aria-hidden="true"></i> WhatsApp Us
+      </a>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-title">Our Work</div>
+    <div class="section-heading">Portfolio</div>
+    <div class="divider"></div>
+    <div class="portfolio-grid">
+      <div class="portfolio-item" style="grid-column: span 2;">
+        <svg viewBox="0 0 440 330" xmlns="http://www.w3.org/2000/svg">
+          <rect width="440" height="330" fill="#181008"/>
+          <rect x="0" y="200" width="440" height="130" fill="#0f0a04"/>
+          <circle cx="220" cy="130" r="80" fill="#2a1a08" opacity="0.6"/>
+          <ellipse cx="220" cy="130" rx="55" ry="65" fill="#1e1208" opacity="0.8"/>
+          <circle cx="210" cy="118" r="22" fill="#c8a96e" opacity="0.12"/>
+          <rect x="170" y="240" width="100" height="2" fill="#c8a96e" opacity="0.3"/>
+          <text x="220" y="310" text-anchor="middle" fill="rgba(200,169,110,0.4)" font-size="10" letter-spacing="3" font-family="sans-serif">WEDDING · COUPLE</text>
+        </svg>
+        <div class="portfolio-overlay"><span>Wedding Films</span></div>
+      </div>
+      <div class="portfolio-item">
+        <svg viewBox="0 0 220 165" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="165" fill="#0a1218"/>
+          <circle cx="110" cy="75" r="45" fill="#0d1e28" opacity="0.9"/>
+          <rect x="85" y="55" width="50" height="40" rx="3" fill="#0f2030" stroke="#c8a96e" stroke-width="0.5" stroke-opacity="0.3"/>
+          <circle cx="110" cy="75" r="12" fill="#c8a96e" opacity="0.15"/>
+          <text x="110" y="140" text-anchor="middle" fill="rgba(200,169,110,0.4)" font-size="8" letter-spacing="3" font-family="sans-serif">REELS</text>
+        </svg>
+        <div class="portfolio-overlay"><span>Instagram Reels</span></div>
+      </div>
+      <div class="portfolio-item">
+        <svg viewBox="0 0 220 165" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="165" fill="#100808"/>
+          <circle cx="110" cy="75" r="50" fill="#1a0a0a" opacity="0.8"/>
+          <rect x="75" y="50" width="70" height="50" rx="2" fill="#200d0d" opacity="0.9"/>
+          <circle cx="110" cy="75" r="18" fill="#c8a96e" opacity="0.18"/>
+          <text x="110" y="140" text-anchor="middle" fill="rgba(200,169,110,0.4)" font-size="8" letter-spacing="3" font-family="sans-serif">PORTRAIT</text>
+        </svg>
+        <div class="portfolio-overlay"><span>Portrait Sessions</span></div>
+      </div>
+      <div class="portfolio-item">
+        <svg viewBox="0 0 220 165" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="165" fill="#080f08"/>
+          <rect x="0" y="90" width="220" height="75" fill="#04080a"/>
+          <circle cx="110" cy="60" r="35" fill="#0a1a0a" opacity="0.7"/>
+          <rect x="60" y="85" width="100" height="2" fill="#c8a96e" opacity="0.25"/>
+          <text x="110" y="140" text-anchor="middle" fill="rgba(200,169,110,0.4)" font-size="8" letter-spacing="3" font-family="sans-serif">EVENTS</text>
+        </svg>
+        <div class="portfolio-overlay"><span>Events</span></div>
+      </div>
+      <div class="portfolio-item">
+        <svg viewBox="0 0 220 165" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="165" fill="#0d0a14"/>
+          <circle cx="110" cy="70" r="42" fill="#160f1e" opacity="0.9"/>
+          <rect x="80" y="48" width="60" height="44" rx="2" fill="#1e1228" opacity="0.95"/>
+          <circle cx="110" cy="70" r="15" fill="#c8a96e" opacity="0.12"/>
+          <text x="110" y="140" text-anchor="middle" fill="rgba(200,169,110,0.4)" font-size="8" letter-spacing="3" font-family="sans-serif">PRODUCT</text>
+        </svg>
+        <div class="portfolio-overlay"><span>Product Shoots</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing-section">
+    <div class="section-title">Video Editing Packages</div>
+    <div class="section-heading">Choose Your Package</div>
+    <div class="divider"></div>
+    <div class="pkg-cards">
+      <div class="pkg-card">
+        <div class="tier silver">Silver</div>
+        <div class="pkg-name">Package</div>
+        <div class="price-row"><span class="price silver">₹499</span><span class="per">/ Reel</span></div>
+        <ul class="features">
+          <li><span class="arrow silver">→</span> Basic Video Cutting</li>
+          <li><span class="arrow silver">→</span> Smooth Transitions</li>
+          <li><span class="arrow silver">→</span> HD Quality Export</li>
+          <li><span class="arrow silver">→</span> Simple Text Captions</li>
+          <li><span class="arrow silver">→</span> Delivery in 6–7 Days</li>
+        </ul>
+        <button class="pkg-btn silver" onclick="window.open('https://wa.me/917046205948?text=Hi! I am interested in Silver Package (₹499/Reel)', '_blank')">Get Started</button>
+      </div>
+      <div class="pkg-card featured">
+        <div class="badge">Most Popular</div>
+        <div class="tier gold">Gold</div>
+        <div class="pkg-name">Package</div>
+        <div class="price-row"><span class="price gold">₹1,499</span><span class="per">/ Reel</span></div>
+        <ul class="features">
+          <li><span class="arrow gold">→</span> Advanced Cinematic Editing</li>
+          <li><span class="arrow gold">→</span> Velocity & Beat Sync</li>
+          <li><span class="arrow gold">→</span> 4K Quality Export</li>
+          <li><span class="arrow gold">→</span> Professional Color Grading</li>
+          <li><span class="arrow gold">→</span> Smooth & Creative Effects</li>
+          <li><span class="arrow gold">→</span> Delivery in 4–5 Days</li>
+        </ul>
+        <button class="pkg-btn gold" onclick="window.open('https://wa.me/917046205948?text=Hi! I am interested in Gold Package (₹1499/Reel)', '_blank')">Get Started</button>
+      </div>
+      <div class="pkg-card">
+        <div class="tier platinum">Platinum</div>
+        <div class="pkg-name">Package</div>
+        <div class="price-row"><span class="price platinum">₹3,499</span><span class="per">/ Reel</span></div>
+        <ul class="features">
+          <li><span class="arrow platinum">→</span> Full Cinematic Production</li>
+          <li><span class="arrow platinum">→</span> Custom Intro & Outro</li>
+          <li><span class="arrow platinum">→</span> Advanced VFX</li>
+          <li><span class="arrow platinum">→</span> Sound Design & Mixing</li>
+          <li><span class="arrow platinum">→</span> 2–3 Revisions</li>
+          <li><span class="arrow platinum">→</span> Priority 48–72 hr Delivery</li>
+        </ul>
+        <button class="pkg-btn platinum" onclick="window.open('https://wa.me/917046205948?text=Hi! I am interested in Platinum Package (₹3499/Reel)', '_blank')">Get Started</button>
+      </div>
+    </div>
+    <div class="pkg-note">All packages include delivery via Google Drive / WhatsApp</div>
+  </section>
+
+  <section style="background: #0d0d0d;">
+    <div class="section-title">Kind Words</div>
+    <div class="section-heading">Client Testimonials</div>
+    <div class="divider"></div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"ND Photography captured our wedding like a dream. Every frame felt like a movie — we cry happy tears every time we watch it."</p>
+        <div class="testi-author">— Priya & Rohan S.</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Our brand reels got 10x more engagement after working with ND Photography. Absolutely professional and creative team!"</p>
+        <div class="testi-author">— Meera V., Business Owner</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The portraits they shot for my portfolio were stunning. Knew exactly how to bring out the best angles and light."</p>
+        <div class="testi-author">— Aakash T., Model</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Get in Touch</div>
+    <div class="section-heading">Book a Session</div>
+    <div class="divider"></div>
+    <div class="contact-wa-box">
+      <div class="wa-info">
+        <i class="ti ti-brand-whatsapp" style="font-size:24px; color:#25D366;" aria-hidden="true"></i>
+        <div>
+          <div style="font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; margin-bottom:2px;">WhatsApp Direct</div>
+          <div class="wa-num">+91 70462 05948</div>
+        </div>
+      </div>
+      <button class="wa-btn" onclick="window.open('https://wa.me/917046205948?text=Hi Narendra! I want to book a session with ND Photography.', '_blank')">Chat Now</button>
+    </div>
+    <div class="contact-inner">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Rahul Sharma" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="text" placeholder="+91 98765 43210" />
+      </div>
+      <div class="form-group">
+        <label>Service Required</label>
+        <select>
+          <option>Reel Shoot</option>
+          <option>Videography</option>
+          <option>Photography</option>
+          <option>Editing — Silver ₹499</option>
+          <option>Editing — Gold ₹1,499</option>
+          <option>Editing — Platinum ₹3,499</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell us about your project..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="window.open('https://wa.me/917046205948?text=Hi Narendra! I want to book a session.', '_blank')">Send on WhatsApp</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-owner">Narendra Tholia — Founder & Photographer</div>
+    <div class="footer-wa"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i> +91 70462 05948</div>
+    &copy; 2026 <span>ND PHOTOGRAPHY</span> · Surat, Gujarat · All Rights Reserved
+  </footer>
+</div>
